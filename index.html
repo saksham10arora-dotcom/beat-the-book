@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>beat the book</title>
+<meta name="description" content="You are the matching engine. Match limit orders by hand with price-time priority, then watch the real engine do your whole shift in microseconds.">
+<meta property="og:title" content="beat the book">
+<meta property="og:description" content="Be the matching engine for 60 seconds. Then lose to the real one by six orders of magnitude.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+
+<!-- title screen -->
+<section id="screen-title" class="screen">
+  <h1>beat<br>the<br>book</h1>
+  <div class="title-right">
+    <p class="lede">for the next 60 seconds, <strong>you are the matching engine</strong> of a stock exchange.</p>
+    <p>orders arrive. if an order crosses the book, click the resting order it must fill first: best price wins, and at the same price, whoever queued first. if nothing crosses, book it.</p>
+    <p>when your shift ends, the real engine replays your exact order flow. it will not take 60 seconds.</p>
+    <button id="btn-start" type="button">start shift</button>
+    <p class="fine">price-time priority · one seeded market · same orders for everyone</p>
+  </div>
+</section>
+
+<!-- game screen -->
+<section id="screen-game" class="screen" hidden>
+  <header id="bar">
+    <div class="stat"><span class="k">time</span><span class="v" id="s-time">60.0</span></div>
+    <div class="stat"><span class="k">fills</span><span class="v" id="s-fills">0</span></div>
+    <div class="stat"><span class="k">errors</span><span class="v" id="s-errors">0</span></div>
+  </header>
+
+  <div id="incoming">
+    <div class="inc-tag">incoming order</div>
+    <div class="inc-body" id="inc-body">—</div>
+    <div class="inc-ask" id="inc-ask">where does it go?</div>
+  </div>
+
+  <div id="book">
+    <div class="col" id="col-bids">
+      <div class="col-head">bids · buyers waiting</div>
+      <div class="levels" id="levels-bids"></div>
+    </div>
+    <div class="col" id="col-asks">
+      <div class="col-head">asks · sellers waiting</div>
+      <div class="levels" id="levels-asks"></div>
+    </div>
+  </div>
+
+  <div id="actions">
+    <button id="btn-rest" type="button">no match. book it</button>
+  </div>
+  <div id="feedback"></div>
+</section>
+
+<!-- results screen -->
+<section id="screen-results" class="screen" hidden>
+  <h2>shift over</h2>
+  <div id="results-grid">
+    <div class="res you">
+      <div class="res-k">you</div>
+      <div class="res-big" id="r-you-fills">0 fills</div>
+      <div class="res-sub" id="r-you-detail">in 60 seconds</div>
+    </div>
+    <div class="res engine">
+      <div class="res-k">the engine, same orders</div>
+      <div class="res-big" id="r-eng-fills">—</div>
+      <div class="res-sub" id="r-eng-detail">—</div>
+    </div>
+  </div>
+
+  <div id="timeline">
+    <div class="tl-row"><span class="tl-k">your shift</span><div class="tl-bar you-bar"></div></div>
+    <div class="tl-row"><span class="tl-k">the engine</span><div class="tl-bar eng-bar" id="eng-bar"></div><span class="tl-note" id="tl-note"></span></div>
+  </div>
+
+  <p id="verdict"></p>
+
+  <div id="share">
+    <button id="btn-card" type="button">download stat card</button>
+    <button id="btn-copy" type="button">copy result</button>
+    <button id="btn-again" type="button">run it back</button>
+  </div>
+  <canvas id="card" width="1200" height="630" hidden></canvas>
+  <footer>a real price-time priority matching engine, 14 unit tests, running in your browser ·
+    <a href="https://github.com/saksham10arora-dotcom/beat-the-book">source</a> · by Saksham Arora</footer>
+</section>
+
+<script src="js/engine.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
