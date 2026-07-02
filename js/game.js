@@ -52,11 +52,10 @@
     const buy = incoming.side === "B";
     $("inc-body").innerHTML =
       `<span class="${buy ? "b" : "s"}">${buy ? "BUY" : "SELL"}</span> ${incoming.qty} @ ${px$(incoming.px)}`;
-    $("inc-ask").textContent = E.nextVictim(book, incoming)
-      ? "it crosses. click the order it fills first."
-      : "does it cross? decide.";
-    // don't leak the answer via text when it doesn't cross
-    if (!E.nextVictim(book, incoming)) $("inc-ask").textContent = "where does it go?";
+    // never hint whether it crosses; that decision is the game
+    $("inc-ask").textContent = incoming.qty < feed[cursor - 1].qty
+      ? "still " + incoming.qty + " to place. where does it go?"
+      : "where does it go?";
   }
 
   function renderBook() {
